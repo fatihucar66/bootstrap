@@ -1,0 +1,892 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varlık Yönetimi İnisiyatifi - Yönetici Panosu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --light-gray: #f8f9fa;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light-gray);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--light);
+        }
+        
+        .logo h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 30px 0 50px;
+        }
+        
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light);
+            padding-bottom: 15px;
+        }
+        
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-icon {
+            color: var(--secondary);
+            font-size: 1.4rem;
+        }
+        
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-green {
+            background-color: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 5px;
+            width: 35%;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Section Styles */
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .section-icon {
+            color: var(--secondary);
+        }
+        
+        .content-section {
+            margin-bottom: 50px;
+        }
+        
+        /* SMART Goals */
+        .smart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .smart-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .smart-letter {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .smart-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* MECE Tree */
+        .mece-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .mece-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .mece-level {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .mece-level:not(:last-child):after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            width: 80%;
+            height: 2px;
+            background-color: var(--gray);
+        }
+        
+        .mece-node {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+            min-width: 200px;
+            margin: 0 15px;
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .mece-node-main {
+            min-width: 300px;
+            border-top-color: var(--accent);
+        }
+        
+        .mece-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Gantt Chart */
+        .gantt-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            overflow-x: auto;
+        }
+        
+        .gantt-timeline {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .gantt-month {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            border-right: 1px solid var(--light);
+            font-weight: 500;
+        }
+        
+        .gantt-month:last-child {
+            border-right: none;
+        }
+        
+        .gantt-activity {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .gantt-label {
+            width: 150px;
+            font-weight: 500;
+            padding-right: 15px;
+        }
+        
+        .gantt-bar-container {
+            flex: 1;
+            height: 40px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gantt-bar {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* Resources & Requirements */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .requirement-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+        
+        .requirement-list {
+            list-style-type: none;
+        }
+        
+        .requirement-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .requirement-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .requirement-list i {
+            color: var(--success);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .mece-level {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .mece-level:after {
+                display: none;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .smart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gantt-label {
+                width: 120px;
+            }
+        }
+        
+        /* Interactive Elements */
+        .jump-to-section {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 15px;
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .jump-link {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .jump-link:hover {
+            background-color: var(--secondary);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        /* Print styles */
+        @media print {
+            .jump-to-section, .nav-links {
+                display: none;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>Varlık Yönetimi İnisiyatifi</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="#overview">Genel Bakış</a>
+                <a href="#initiative">İnisiyatif Detayları</a>
+                <a href="#smart">SMART Hedefler</a>
+                <a href="#mece">MECE Analizi</a>
+                <a href="#gantt">Gantt Çizelgesi</a>
+                <a href="#resources">Kaynaklar</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Dashboard Overview -->
+        <section id="overview" class="content-section">
+            <h2 class="section-title"><i class="fas fa-tachometer-alt section-icon"></i>Proje Genel Bakış</h2>
+            
+            <div class="dashboard-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-bullseye card-icon"></i> Proje Bilgileri</h3>
+                        <span class="status-badge status-green">Aktif</span>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">İnisiyatif Lideri</div>
+                            <div class="info-value">Fatih Uçar</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Başlangıç</div>
+                            <div class="info-value">01.12.2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Hedef Bitiş</div>
+                            <div class="info-value">31.12.2026</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Sponsor</div>
+                            <div class="info-value">Melike Özeker</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="info-label">Proje İlerlemesi</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="info-value">%35 Tamamlandı</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-chart-bar card-icon"></i> Finansal Özet</h3>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Proje Bütçesi</div>
+                            <div class="info-value">1.500.000 TRY</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Beklenen Tasarruf</div>
+                            <div class="info-value">€ 3.8 M + € 73K/yıl</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">FTE Tasarrufu</div>
+                            <div class="info-value">~3.5 FTE</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">ROI Beklentisi</div>
+                            <div class="info-value">Kısa Sürede</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="financialChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-users card-icon"></i> Kaynaklar</h3>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Proje Ekibi</div>
+                            <div class="info-value">5-7 Kişi</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Tahmini Süre</div>
+                            <div class="info-value">250-300 Gün</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Uygulayıcı Birim</div>
+                            <div class="info-value">Sistem Geliştirme</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Departman Sorumluları</div>
+                            <div class="info-value">Tüm Birimlerde</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="resourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Initiative Details -->
+        <section id="initiative" class="content-section">
+            <h2 class="section-title"><i class="fas fa-info-circle section-icon"></i>İnisiyatif Detayları</h2>
+            
+            <div class="dashboard-overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-book-open card-icon"></i> Tanım ve Amaç</h3>
+                    </div>
+                    <p><strong>Tanım:</strong> Ekol Lojistik'in Verimlilik odaklı Dijitalleşme stratejisi doğrultusunda, tüm fiziksel varlıkların (253, 254 ve 255 hesap sınıfları) yaşam döngüsü yönetimini uçtan uca dijitalleştirmek ve merkezi bir Varlık Yönetimi Platformu üzerinden takip etmektir.</p>
+                    <p><strong>Amaç:</strong> Demirbaşların tespiti, sayımı, kayıt altına alınması, kontrol ve takibinin, zimmet işlemlerinin Departman Demirbaş Sorumluları ile koordinasyon içerisinde etkin şekilde yönetilmesini sağlamaktır.</p>
+                    <p><strong>Kapsam:</strong> Tüm Ekol Tesisleri, Makine ve Cihazlar, Taşıtlar, Demirbaşlar, IT Ekipmanları ve Ofis Malzemeleri gibi Tek Düzen Hesap Planı'na giren varlıklar.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-exclamation-triangle card-icon"></i> Problem Analizi</h3>
+                    </div>
+                    <p><strong>Durum Analizi:</strong> Mevcut demirbaş yönetim süreçleri, prosedür bazlı olmasına rağmen saha uygulamasında sürdürülebilirlik sağlanamamaktadır.</p>
+                    <p><strong>Kök Sebep:</strong> Süreçsel, yönetsel, şirket kültürü, yayılım ve sistem eksiklikleri nedeniyle, zimmet, barkodlama ve kayıt gibi kritik adımların eksik yürütülmesidir.</p>
+                    <p><strong>Çözüm Yapılandırma:</strong> Problem MECE prensibiyle ana çözüm dallarına ayrılmıştır: Finansal Etki, Operasyonel Etki, Sürdürülebilirlik.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SMART Goals -->
+        <section id="smart" class="content-section">
+            <h2 class="section-title"><i class="fas fa-bullseye section-icon"></i>SMART Hedef Yapısı</h2>
+            
+            <div class="smart-container">
+                <div class="smart-card">
+                    <div class="smart-letter">S</div>
+                    <h3 class="smart-title">Spesifik</h3>
+                    <p>Merkezi Varlık Yönetimi Platformunun (AssetLog) devreye alınması ve entegre süreçlerle demirbaş kayıtlarında %100 doğruluk sağlanması.</p>
+                </div>
+                
+                <div class="smart-card">
+                    <div class="smart-letter">M</div>
+                    <h3 class="smart-title">Ölçülebilir</h3>
+                    <p>Varlık edinme maliyetinin baz yıla göre %10 azaltılması, kullanım ömrünün %10 artırılması, arıza-bakım duruş sürelerinin %20 azaltılması.</p>
+                </div>
+                
+                <div class="smart-card">
+                    <div class="smart-letter">A</div>
+                    <h3 class="smart-title">Eylem Odaklı</h3>
+                    <p>Tüm varlıkların yaşam döngüsünü takip eden merkezi varlık yönetimi platformunun kurulması ve mevcut prosedürlerin sistem üzerinden otomatikleştirilmesi.</p>
+                </div>
+                
+                <div class="smart-card">
+                    <div class="smart-letter">R</div>
+                    <h3 class="smart-title">Amaca Uygun</h3>
+                    <p>Verimlilik ve Dijitalleşme odaklı olup, kullanılmadan duran demirbaşların tespitiyle yeni alımların ortadan kaldırılması.</p>
+                </div>
+                
+                <div class="smart-card">
+                    <div class="smart-letter">T</div>
+                    <h3 class="smart-title">Zaman Sınırlı</h3>
+                    <p>Projenin 31.12.2026 tarihine kadar canlıya alınması ve stabilizasyonunun sağlanması.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- MECE Analysis -->
+        <section id="mece" class="content-section">
+            <h2 class="section-title"><i class="fas fa-project-diagram section-icon"></i>MECE Problemi Yapılandırma</h2>
+            
+            <div class="mece-container">
+                <div class="mece-tree">
+                    <!-- Level 1: Main Problem -->
+                    <div class="mece-level">
+                        <div class="mece-node mece-node-main">
+                            <h3 class="mece-title">Ana Problem</h3>
+                            <p>Demirbaşların sistemsel takip edilmemesi nedeniyle oluşan operasyonel verimsizlik</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Level 2: Solution Branches -->
+                    <div class="mece-level">
+                        <div class="mece-node">
+                            <h3 class="mece-title">Finansal Etki</h3>
+                            <p>Satınalma ve sigorta maliyetlerinin düşürülmesi</p>
+                            <p><strong>Potansiyel Tasarruf:</strong> € 3.8M + € 73K/yıl</p>
+                        </div>
+                        
+                        <div class="mece-node">
+                            <h3 class="mece-title">Operasyonel Etki</h3>
+                            <p>Kullanım ömürlerinin uzatılması, zimmet takibinin yapılması, arıza-bakım zaman kaybının azaltılması</p>
+                            <p><strong>Hedef:</strong> %20 azalma</p>
+                        </div>
+                        
+                        <div class="mece-node">
+                            <h3 class="mece-title">Sürdürülebilirlik</h3>
+                            <p>Reel ve doğru envanter bilgisinin elektronik ortamda takibi</p>
+                            <p><strong>Hedef:</strong> %100 doğru kayıt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gantt Chart -->
+        <section id="gantt" class="content-section">
+            <h2 class="section-title"><i class="fas fa-calendar-alt section-icon"></i>Proje Gantt Çizelgesi</h2>
+            
+            <div class="gantt-container">
+                <div class="gantt-timeline">
+                    <div class="gantt-month">Ara 2025</div>
+                    <div class="gantt-month">Oca 2026</div>
+                    <div class="gantt-month">Şub 2026</div>
+                    <div class="gantt-month">Mar 2026</div>
+                    <div class="gantt-month">Nis 2026</div>
+                    <div class="gantt-month">May 2026</div>
+                    <div class="gantt-month">Haz 2026</div>
+                    <div class="gantt-month">Tem 2026</div>
+                    <div class="gantt-month">Ağu 2026</div>
+                    <div class="gantt-month">Eyl 2026</div>
+                    <div class="gantt-month">Eki 2026</div>
+                    <div class="gantt-month">Kas 2026</div>
+                    <div class="gantt-month">Ara 2026</div>
+                </div>
+                
+                <div class="gantt-activity">
+                    <div class="gantt-label">Tasarım (4 Ay)</div>
+                    <div class="gantt-bar-container">
+                        <div class="gantt-bar" style="width: 30.8%; left: 0;">Tasarım</div>
+                    </div>
+                </div>
+                
+                <div class="gantt-activity">
+                    <div class="gantt-label">Gelişme (6 Ay)</div>
+                    <div class="gantt-bar-container">
+                        <div class="gantt-bar" style="width: 46.2%; left: 30.8%;">Gelişme</div>
+                    </div>
+                </div>
+                
+                <div class="gantt-activity">
+                    <div class="gantt-label">Pilot (2 Ay)</div>
+                    <div class="gantt-bar-container">
+                        <div class="gantt-bar" style="width: 15.4%; left: 77%;">Pilot</div>
+                    </div>
+                </div>
+                
+                <div class="gantt-activity">
+                    <div class="gantt-label">Yayım (1 Ay)</div>
+                    <div class="gantt-bar-container">
+                        <div class="gantt-bar" style="width: 7.7%; left: 92.4%;">Yayım</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-overview" style="margin-top: 30px;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-tasks card-icon"></i> Kilometre Taşları</h3>
+                    </div>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check-circle"></i> İnisiyatif Tanımlama Tamamlandı</li>
+                        <li><i class="fas fa-spinner"></i> Fizibilite ve Planlama Hazırlığı</li>
+                        <li><i class="fas fa-clock"></i> Tasarım Aşaması (Ara 2025 - Mar 2026)</li>
+                        <li><i class="fas fa-clock"></i> Geliştirme Aşaması (Nis 2026 - Eyl 2026)</li>
+                        <li><i class="fas fa-clock"></i> Pilot Aşaması (Eki 2026 - Kas 2026)</li>
+                        <li><i class="fas fa-clock"></i> Yayım Aşaması (Ara 2026)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Resources & Requirements -->
+        <section id="resources" class="content-section">
+            <h2 class="section-title"><i class="fas fa-cogs section-icon"></i>Kaynak Gereksinimleri ve Riskler</h2>
+            
+            <div class="resources-grid">
+                <div class="requirement-card">
+                    <h3 class="card-title" style="margin-bottom: 20px;"><i class="fas fa-money-bill-wave card-icon"></i> Finansal Kaynaklar</h3>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check"></i> Yazılım lisans/abonelik maliyeti (AssetLog vb.)</li>
+                        <li><i class="fas fa-check"></i> Entegrasyon ve danışmanlık hizmetleri</li>
+                        <li><i class="fas fa-check"></i> Proje Ekibi İç Kaynak Maliyeti (~2.25 FTE)</li>
+                        <li><i class="fas fa-check"></i> Toplam Bütçe: ~1.500.000 TRY / 30.000 €</li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card">
+                    <h3 class="card-title" style="margin-bottom: 20px;"><i class="fas fa-users card-icon"></i> İnsan Kaynakları</h3>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check"></i> Tüm departmanlarda Departman Demirbaş Sorumluları</li>
+                        <li><i class="fas fa-check"></i> BT Geliştirme/Entegrasyon Ekibi (5-7 kişi)</li>
+                        <li><i class="fas fa-check"></i> Yıl Sonu Sayım Ekibi (Muhasebe, Sabit Kıymet, BT)</li>
+                        <li><i class="fas fa-check"></i> Proje Ekibi: Fatih Uçar, Nedrin Güler, İlhami Bayram, Aynur Kuyumcu</li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card">
+                    <h3 class="card-title" style="margin-bottom: 20px;"><i class="fas fa-exclamation-triangle card-icon"></i> Riskler</h3>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-exclamation-circle" style="color: var(--warning);"></i> Değişim Direnci (Zimmet ve periyodik sayım süreçlerinde eksik yürütme)</li>
+                        <li><i class="fas fa-exclamation-circle" style="color: var(--warning);"></i> Veri Kalitesi (Eski sistemlerden gelen verilerin temizliği sırasındaki hatalar)</li>
+                        <li><i class="fas fa-exclamation-circle" style="color: var(--warning);"></i> Kapsam Dışı Varlıklar (Kapsam dışında bırakılan hesap sınıflarından gelebilecek talep)</li>
+                    </ul>
+                </div>
+                
+                <div class="requirement-card">
+                    <h3 class="card-title" style="margin-bottom: 20px;"><i class="fas fa-laptop card-icon"></i> Teknoloji Kaynakları</h3>
+                    <ul class="requirement-list">
+                        <li><i class="fas fa-check"></i> Merkezi Varlık Yönetimi Platformu (AssetLog)</li>
+                        <li><i class="fas fa-check"></i> Barkod/QR okuyucu özellikli el terminalleri</li>
+                        <li><i class="fas fa-check"></i> Mevcut SAP entegrasyon arayüzlerinin optimizasyonu</li>
+                        <li><i class="fas fa-check"></i> Bulut altyapısı</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>Ekol Lojistik A.Ş. - Varlık Yönetimi İnisiyatifi</span>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#overview">Genel Bakış</a>
+                <a href="#initiative">İnisiyatif Detayları</a>
+                <a href="#smart">SMART Hedefler</a>
+                <a href="#mece">MECE Analizi</a>
+                <a href="#gantt">Gantt Çizelgesi</a>
+            </div>
+            
+            <div>
+                <p>© 2025
