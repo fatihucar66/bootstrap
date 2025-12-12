@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fizibilite Raporu - Varlık Yönetimi</title>
+<style>
+    body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    header {
+        background: linear-gradient(135deg, #003366, #0059b3);
+        padding: 35px;
+        color: #fff;
+        text-align: center;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    nav {
+        background: #ffffff;
+        padding: 12px 25px;
+        display: flex;
+        gap: 25px;
+        border-bottom: 1px solid #ddd;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #003366;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    nav a:hover {
+        color: #0073e6;
+    }
+
+    section {
+        background: #fff;
+        margin: 25px auto;
+        padding: 30px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 1300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+        color: #003366;
+        border-left: 6px solid #0073e6;
+        padding-left: 12px;
+    }
+
+    .panel {
+        padding: 20px;
+        background: #eef4fa;
+        border-radius: 12px;
+        margin-top: 15px;
+    }
+
+    .gantt {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 12px;
+    }
+    .gantt .bar {
+        background: #0073e6;
+        height: 22px;
+        border-radius: 6px;
+        animation: grow 1.4s ease;
+    }
+
+    @keyframes grow {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    .mece-tree {
+        margin-top: 20px;
+        padding-left: 20px;
+        border-left: 4px solid #0059b3;
+    }
+
+    .mece-tree ul {
+        list-style: none;
+        padding-left: 20px;
+    }
+
+    .mece-tree li {
+        margin: 8px 0;
+        font-weight: 500;
+    }
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        margin-top: 40px;
+        color: #666;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Merkezi Varlık Yönetimi Sistemi - Fizibilite Raporu</h1>
+    <p>Ekol Lojistik A.Ş. | 2025 - 2026</p>
+</header>
+
+<nav>
+    <a href="#tanım">Tanım & Amaç</a>
+    <a href="#smart">SMART Hedef</a>
+    <a href="#mece">MECE Problem Ağacı</a>
+    <a href="#gantt">Gantt Çizelgesi</a>
+    <a href="#kaynak">Kaynak & Yatırım</a>
+    <a href="#risk">Riskler</a>
+    <a href="#fizibilite">Fizibilite Sonucu</a>
+</nav>
+
+<section id="tanım">
+    <h2>📌 Proje Tanımı ve Amacı</h2>
+    <div class="panel">
+        <p><strong>Proje Konusu:</strong> Ekol Lojistik'in tüm 253, 254 ve 255 hesap sınıflarına giren fiziksel varlıklarının yaşam döngüsünün dijitalleştirilmesi.</p>
+        <p><strong>İnisiyatif Lideri:</strong> Fatih Uçar</p>
+        <p><strong>Başlangıç:</strong> 01.12.2025 • <strong>Bitiş:</strong> 31.12.2026</p>
+        <p><strong>Amaç:</strong> Demirbaş kayıt doğruluğunu %100’e çıkarmak, gereksiz alımları engellemek, maliyet azaltmak ve operasyonel verimliliği artırmak.</p>
+    </div>
+</section>
+
+<section id="smart">
+    <h2>🎯 SMART Hedef Yapısı</h2>
+    <div class="panel">
+        <p><strong>S:</strong> Merkezi varlık yönetim platformunun kurulması.</p>
+        <p><strong>M:</strong> Varlık edinme maliyetinde %10 azalma, bakım sürelerinde %20 azalma.</p>
+        <p><strong>A:</strong> SAP + AssetLog entegrasyonu ile otomatik süreç.</p>
+        <p><strong>R:</strong> Sürdürülebilir verimlilik ve maliyet optimizasyonu.</p>
+        <p><strong>T:</strong> 31.12.2026 tarihinde canlıya alınması.</p>
+    </div>
+</section>
+
+<section id="mece">
+    <h2>🧩 MECE Problem Ağacı</h2>
+    <div class="panel mece-tree">
+        <ul>
+            <li><strong>Ana Problem:</strong> Demirbaşların sistemsel takip edilmemesi</li>
+            <ul>
+                <li>Finansal Etki: Gereksiz alım + sigorta maliyeti</li>
+                <li>Operasyonel Etki: Arıza/bakım süreç kaybı</li>
+                <li>Sürdürülebilirlik: Gerçek envanter bilgisinin eksikliği</li>
+            </ul>
+        </ul>
+    </div>
+</section>
+
+<section id="gantt">
+    <h2>📊 Gantt Çizelgesi</h2>
+    <div class="panel">
+        <div class="gantt">
+            <div>Tasarım (4 Ay)</div>
+            <div><div class="bar" style="width:30%"></div></div>
+            <div>Gelişme (6 Ay)</div>
+            <div><div class="bar" style="width:60%"></div></div>
+            <div>Pilot (2 Ay)</div>
+            <div><div class="bar" style="width:20%"></div></div>
+            <div>Yayım (1 Ay)</div>
+            <div><div class="bar" style="width:10%"></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="kaynak">
+    <h2>⚙️ Kaynak ve Yatırım İhtiyaçları</h2>
+    <div class="panel">
+        <p><strong>Finansal Kaynak:</strong> Lisans + donanım + entegrasyon (~30.000 €).</p>
+        <p><strong>İnsan Kaynağı:</strong> 5-7 BT Uzmanı, 1 Sabit Kıymet Lideri, Tüm Departman Demirbaş Sorumluları.</p>
+        <p><strong>Teknoloji:</strong> AssetLog platformu, SAP entegrasyonu.</p>
+        <p><strong>Potansiyel Tasarruf:</strong> € 3.8 M satın alma optimizasyonu + € 73K sigorta tasarrufu.</p>
+    </div>
+</section>
+
+<section id="risk">
+    <h2>⚠️ Riskler ve Varsayımlar</h2>
+    <div class="panel">
+        <p><strong>Riskler:</strong> Değişim direnci, veri temizlik hataları, kapsam dışı varlık talepleri.</p>
+        <p><strong>Varsayımlar:</strong> Prosedürel uyum sağlanacak, SAP entegrasyonu yeterli, kaynaklar uygun.</p>
+    </div>
+</section>
+
+<section id="fizibilite">
+    <h2>📌 Fizibilite Sonucu</h2>
+    <div class="panel">
+        <p>Bu inisiyatif, yüksek finansal ve operasyonel getiri potansiyeline sahiptir. Yıllık milyonlarca Euro tasarruf sağlayabileceği ve varlıkların yaşam döngüsünü optimize edeceği öngörülmektedir.</p>
+        <p><strong>Sonuç:</strong> Fizibilite olumlu. Proje uygulanabilir, sürdürülebilir ve stratejik olarak kritiktir.</p>
+    </div>
+</section>
+
+<footer>
+    © 2026 Ekol Lojistik A.Ş. - Varlık Yönetimi Fizibilite Raporu
+</footer>
+
+</body>
+</html>
